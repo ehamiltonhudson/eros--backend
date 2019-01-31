@@ -1,0 +1,2 @@
+class SunsController < ApplicationController
+end
