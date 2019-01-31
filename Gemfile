@@ -21,6 +21,22 @@ gem 'puma', '~> 3.11'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+# gem 'active_model_serializers'
+
+gem 'rack-cors'
+
+#create fake data for seeds.rb
+gem 'faker', '~> 1.9', '>= 1.9.1'
+gem 'ffaker', '~> 2.10'
+
+#clean database without affecting schema in order to re-seed
+gem 'database_cleaner', '~> 1.7'
+
+gem 'zodiac', '~> 0.2.10'
+
+gem 'chronic'
+
+# gem 'sweph4ruby', '~> 0.0.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
