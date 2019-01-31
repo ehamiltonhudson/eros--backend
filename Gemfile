@@ -21,8 +21,11 @@ gem 'puma', '~> 3.11'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-# gem 'active_model_serializers'
 
+gem 'jbuilder', '~> 2.5'
+gem 'rest-client'
+
+gem 'active_model_serializers'
 gem 'rack-cors'
 
 #create fake data for seeds.rb
