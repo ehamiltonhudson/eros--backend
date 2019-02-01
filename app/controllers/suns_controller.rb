@@ -1,2 +1,0 @@
-class SunsController < ApplicationController
-end

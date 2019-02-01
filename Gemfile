@@ -16,36 +16,37 @@ gem 'puma', '~> 3.11'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'dotenv'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'jbuilder', '~> 2.5'
-gem 'rest-client'
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'active_model_serializers'
+# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+
+#Use AMS to specify the shape of our JSON response
+gem 'active_model_serializers', '~> 0.10.0'
+
+gem 'rest-client'
+gem 'json'
+
+#clean database without affecting schema in order to re-seed
+gem 'database_cleaner', '~> 1.7'
 
 #create fake data for seeds.rb
 gem 'faker', '~> 1.9', '>= 1.9.1'
 gem 'ffaker', '~> 2.10'
 
-#clean database without affecting schema in order to re-seed
-gem 'database_cleaner', '~> 1.7'
-
 gem 'zodiac', '~> 0.2.10'
-
 gem 'chronic'
 
 # gem 'sweph4ruby', '~> 0.0.1'
-
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
-
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
