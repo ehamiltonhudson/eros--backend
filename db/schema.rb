@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_31_194640) do
+ActiveRecord::Schema.define(version: 2019_02_01_061749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "compatibilities", force: :cascade do |t|
+    t.bigint "sun_id"
+    t.bigint "compatible_sun_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["compatible_sun_id"], name: "index_compatibilities_on_compatible_sun_id"
+    t.index ["sun_id", "compatible_sun_id"], name: "index_compatibilities_on_sun_id_and_compatible_sun_id", unique: true
+    t.index ["sun_id"], name: "index_compatibilities_on_sun_id"
+  end
 
   create_table "suns", force: :cascade do |t|
     t.string "sign"
@@ -21,6 +31,7 @@ ActiveRecord::Schema.define(version: 2019_01_31_194640) do
     t.string "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "compat_signs"
   end
 
   create_table "users", force: :cascade do |t|
@@ -35,5 +46,7 @@ ActiveRecord::Schema.define(version: 2019_01_31_194640) do
     t.index ["sun_id"], name: "index_users_on_sun_id"
   end
 
+  add_foreign_key "compatibilities", "suns"
+  add_foreign_key "compatibilities", "suns", column: "compatible_sun_id"
   add_foreign_key "users", "suns"
 end

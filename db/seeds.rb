@@ -12,10 +12,13 @@ all_suns = RestClient.get('https://zodiacal.herokuapp.com/api')
 suns_array = JSON.parse(all_suns)
 suns_array.each do |hash|
   Sun.create!(sign: hash["name"], start_date: hash["sun_dates"].first,
-  end_date: hash["sun_dates"].last)
+  end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].join(", "))
 end
 
-User.create!(first_name: "Hamilton", last_name: "Hudson", birth_year: 1989, birth_month: 8, birth_day: 2, sun_id: 5)
+User.create!(first_name: "Hamilton", last_name: "Hudson", birth_year: 1989, birth_month: 8, birth_day: 2)
+User.create!(first_name: "Eva", last_name: "Hudson", birth_year: 1992, birth_month: 5, birth_day: 1)
+User.create!(first_name: "Downing", last_name: "Hudson", birth_year: 1957, birth_month: 8, birth_day: 31)
+User.create!(first_name: "Biff", last_name: "Hudson", birth_year: 1953, birth_month: 6, birth_day: 2)
 
 # suns_array.each do |hash|
 #   Sun.create(sign: hash["name"], start_date: hash["sun_dates"].first,

@@ -1,4 +1,4 @@
 class SunSerializer < ActiveModel::Serializer
   has_many :users
-  attributes :id, :start_date, :end_date
+  attributes :id, :sign, :start_date, :end_date, :compat_signs
 end
