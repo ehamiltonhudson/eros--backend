@@ -13,4 +13,7 @@ class Api::V1::SunsController < ApplicationController
     render json: @sun, status: 200
   end
 
+  # custom routesfor custom methods
+  # user logs in and there's an action to establisth their compatibilities
+
 end

@@ -1,9 +1,10 @@
 class Sun < ApplicationRecord
   has_many :users
-  has_many :compatibilities
+  has_many :compatibilities, dependent: :destroy
   has_many :compatible_suns, through: :compatibilities
   has_many :inverse_compatibilities, class_name: "Compatibility", foreign_key: "compatible_sun_id"
   has_many :inverse_compatible_suns, through: :inverse_compatibilities, source: :sun
+  validate :no_duplicate_compatibility
 
   # @aries = Sun.first
   # @taurus = Sun.second
@@ -13,12 +14,14 @@ class Sun < ApplicationRecord
   #
   # aries = Sun.first
   # leo = Sun.fifth
-  #
   # aries_arr = aries.compat_signs_to_array
   # leo_arr = leo.compat_signs_to_array
   #
-  aries_arr.map_compat_signs(leo, leo_arr)
-  # leo_arr.map_compat_signs(aries, aries_arr)
+  # aries.compatible(leo)
+  # leo.compatible(aries)
+  #
+  # aries.find_mutual_compats(leo, leo_arr)
+  # leo.find_mutual_compats(aries, aries_arr)
   # Sun.class_compat_signs_array
 
   def self.class_compat_signs_array
@@ -28,34 +31,49 @@ class Sun < ApplicationRecord
     end
     array = big_array.each.map { |elem| elem.split(',') }
   end
-  # ^ returns array of arrays each signs compat_signs
+  # ^^ returns array of arrays each signs compat_signs
 
   def compat_signs_to_array
-    return compat_signs_array = self.compat_signs.split(',')
+    compat_signs_array = self.compat_signs.split(',')
+    return compat_signs_array.map { |item| item.strip }
   end
-  # convert sun instance compat_signs attriute from string to array
+  # ^^ convert sun instance compat_signs attriute from string to array
 
   def compatible(sun)
     if self.compat_signs.include?(sun.sign)
-      return "yes, compatible with #{sun.sign}"
+      return "yes, #{self.sign} is compatible with #{sun.sign}"
     end
   end
-  # find compatibility between two sun instances
+  # ^^ determines compatibility between two sun instances
+  # (finds whether or not they exist in each other's compat_signs)
 
-  def map_compat_signs(sun, arr)
-    arr.select do |a|
-      self.compat_signs.include?(a)
+  def find_mutual_compats(sun, arr)
+    arr.select do |el|
+      self.compat_signs.include?(el)
     end
   end
-  # returns crossover compatibility signs between two instances
+  # ^^ returns crossover compatibility signs between two instances
 
-  def select(sun, arr)
-    arr.select do |a|
-      self.compat_signs.include?(a)
+  def com_create(sun_one, sun_two)
+    if sun_one.compat_signs.include?(sun_two.sign)
+      Compatibility.create(sun_id: sun_one.id, compatible_sun_id: sun_two.id)
+      bye_bug
     end
-  end 
-  # ^^ works in rails console:
-  # leo.select(aries, aries_arr)
-  # => [" Sagittarius", " Gemini"]
+  end
+
+  def create_com
+    @sun = sun.find(sun.id)
+    @compatible_sun = sun.find(compatible_sun.id)
+    if @sun.compat_signs.include?(@compatible_sun.sign)
+      Compatibility.create(sun_id: @sun.id, compatible_sun_id: @compatible_sun.id)
+    else
+      puts "not compatible"
+    end
+  end
+
+
+  # suns.each_cons(2) { |a, b| p com_create(a, b) }
+  #
+  # suns.each_cons(2) { |a, b| p sun_one = a, sun_two = b }
 
 end
