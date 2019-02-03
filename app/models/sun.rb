@@ -4,32 +4,20 @@ class Sun < ApplicationRecord
   has_many :compatible_suns, through: :compatibilities
   has_many :inverse_compatibilities, class_name: "Compatibility", foreign_key: "compatible_sun_id"
   has_many :inverse_compatible_suns, through: :inverse_compatibilities, source: :sun
-  validate :no_duplicate_compatibility
+  # after_create :update_pisces, before: :save
+  # before_save { Sun.all.find { |sun| sun.sign == "Pisces" ? sun[:compat_signs][0] = "Taurus, Cancer, Scorpio, Capricorn" : nil }}
 
-  # @aries = Sun.first
-  # @taurus = Sun.second
-  # @gemini = Sun.third
-  # @cancer = Sun.fourth
-  # @leo = Sun.fifth
-  #
-  # aries = Sun.first
-  # leo = Sun.fifth
-  # aries_arr = aries.compat_signs_to_array
-  # leo_arr = leo.compat_signs_to_array
-  #
-  # aries.compatible(leo)
-  # leo.compatible(aries)
-  #
-  # aries.find_mutual_compats(leo, leo_arr)
-  # leo.find_mutual_compats(aries, aries_arr)
-  # Sun.class_compat_signs_array
+  # def remove_whitespace
+  #   compat_signs_array = self.compat_signs.split(',')
+  #   return compat_signs_array.map { |item| item.strip }.split(', ')
+  # end
 
   def self.class_compat_signs_array
     big_array = self.all.map do |sun|
       sun.compat_signs
       # sun_string = "#{sun.sign}" + " compats are " + "#{sun.compat_signs}"
     end
-    array = big_array.each.map { |elem| elem.split(',') }
+    each_array = big_array.each.map { |elem| elem.split(',') }
   end
   # ^^ returns array of arrays each signs compat_signs
 
@@ -71,9 +59,14 @@ class Sun < ApplicationRecord
     end
   end
 
-
-  # suns.each_cons(2) { |a, b| p com_create(a, b) }
+# private
   #
-  # suns.each_cons(2) { |a, b| p sun_one = a, sun_two = b }
+  # def self.update_pisces(sun)
+  #   # Sun.all.find do |sun|
+  #   #   pisces = sun.sign == "Pisces
+  #   if sun.id == 12
+  #     sun.compat_signs = ["Taurus", "Cancer", "Scorpio", "Capricorn"]
+  #   byebug
+  # end
 
 end

@@ -1,8 +1,8 @@
 class CreateCompatibilities < ActiveRecord::Migration[5.2]
   def change
     create_table :compatibilities do |t|
-      t.references :sun, index: true, foreign_key: true
-      t.references :compatible_sun, index: true
+      t.references :sun, foreign_key: true
+      t.references :compatible_sun
 
       t.timestamps
     end

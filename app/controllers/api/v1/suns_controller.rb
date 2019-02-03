@@ -13,7 +13,14 @@ class Api::V1::SunsController < ApplicationController
     render json: @sun, status: 200
   end
 
-  # custom routesfor custom methods
-  # user logs in and there's an action to establisth their compatibilities
+
+  ## custom routes for custom methods
+  ## user logs in and there's an action to establisth their compatibilities
+
+  # private
+  #
+  #  def sun_params
+  #    params.require(:id).permit(:sign, :start_date, :end_date, :compat_signs)
+  #  end
 
 end
