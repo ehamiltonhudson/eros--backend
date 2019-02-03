@@ -16,7 +16,7 @@ suns_array.each do |hash|
   Sun.create!(sign: hash["name"], start_date: hash["sun_dates"].first,
   end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map { |item| item.strip || item })
 end
-#
+
 # Sun.all.map { |sun| sun.compat_signs }
 # Sun.all.map do |sun|
 #   sun.compat_signs.split(',').map{|item| item.strip}.join(', ').split(',')
