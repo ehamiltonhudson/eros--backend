@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :find_user, only: [:show, :sun_compats]
 
   # def index
   #   if params[:search]
@@ -18,9 +19,16 @@ class Api::V1::UsersController < ApplicationController
   # end
 
   def show
-    @user = User.find(params[:id])
     render json: @user, status: 200
   end
+
+  def sun_compats
+    @name = @user.full_name
+    @sun_compats = @user.sun.compatibilities
+    render json: [@name, @sun_compats], status: 200
+  end
+
+
   # def new
   #   @user = User.new
   #   # @locations = Location.all
@@ -70,10 +78,14 @@ class Api::V1::UsersController < ApplicationController
   #   redirect_to users_path
   # end
 
-  # private
-  #
+  private
+
   def user_params
-    params.require(:user).permit(:name, :birth_month, :birth_day, :birth_year, :zodiac_id)
-  end
+     params.require(:user).permit(:name, :birth_month, :birth_day, :birth_year, :zodiac_id)
+   end
+
+   def find_user
+     @user = User.find(params[:id])
+   end
 
 end

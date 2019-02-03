@@ -7,6 +7,10 @@ class User < ApplicationRecord
   validates :birth_month, presence: true
   validates :birth_day, presence: true
 
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
 
   def dob
     bday = Date.new(("#{self.birth_year}").to_i, ("#{self.birth_month}").to_i, ("#{self.birth_day}").to_i)
