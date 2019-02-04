@@ -6,6 +6,11 @@ class User < ApplicationRecord
   validates :birth_year, presence: true
   validates :birth_month, presence: true
   validates :birth_day, presence: true
+  has_many :matches, dependent: :destroy
+  has_many :matched_users, through: :matches
+  has_many :user_matches, class_name: "Match", foreign_key: "matched_user_id"
+  has_many :users_matched, through: :user_matches, source: :user
+
 
   def full_name
     "#{self.first_name} #{self.last_name}"

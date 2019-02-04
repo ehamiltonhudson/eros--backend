@@ -2,9 +2,9 @@ class Sun < ApplicationRecord
   has_many :users
   has_many :compatibilities, dependent: :destroy
   has_many :compatible_suns, through: :compatibilities
-  has_many :inverse_compatibilities, class_name: "Compatibility", foreign_key: "compatible_sun_id"
+  has_many :inverse_compatibilities, class_name: "Compatibility", foreign_key: "compatible_sun_id", dependent: :destroy
   has_many :inverse_compatible_suns, through: :inverse_compatibilities, source: :sun
-  
+
   # after_create :update_pisces, before: :save
   # before_save :update_pisces, on: :create
   # before_save { Sun.all.find { |sun| sun.sign == "Pisces" ? sun[:compat_signs][0] = "Taurus, Cancer, Scorpio, Capricorn" : nil }}

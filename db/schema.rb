@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_01_061749) do
+ActiveRecord::Schema.define(version: 2019_02_04_002046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 2019_02_01_061749) do
     t.index ["compatible_sun_id"], name: "index_compatibilities_on_compatible_sun_id"
     t.index ["sun_id", "compatible_sun_id"], name: "index_compatibilities_on_sun_id_and_compatible_sun_id", unique: true
     t.index ["sun_id"], name: "index_compatibilities_on_sun_id"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "matched_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["matched_user_id"], name: "index_matches_on_matched_user_id"
+    t.index ["user_id", "matched_user_id"], name: "index_matches_on_user_id_and_matched_user_id", unique: true
+    t.index ["user_id"], name: "index_matches_on_user_id"
   end
 
   create_table "suns", force: :cascade do |t|
@@ -48,5 +58,7 @@ ActiveRecord::Schema.define(version: 2019_02_01_061749) do
 
   add_foreign_key "compatibilities", "suns"
   add_foreign_key "compatibilities", "suns", column: "compatible_sun_id"
+  add_foreign_key "matches", "users"
+  add_foreign_key "matches", "users", column: "matched_user_id"
   add_foreign_key "users", "suns"
 end
