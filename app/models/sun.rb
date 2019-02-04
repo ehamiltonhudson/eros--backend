@@ -17,7 +17,6 @@ class Sun < ApplicationRecord
   def self.class_compat_signs_array
     big_array = self.all.map do |sun|
       sun.compat_signs
-      # sun_string = "#{sun.sign}" + " compats are " + "#{sun.compat_signs}"
     end
     each_array = big_array.each.map { |elem| elem.split(',') }
   end

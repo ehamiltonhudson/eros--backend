@@ -17,6 +17,15 @@ suns_array.each do |hash|
   end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map { |item| item.strip || item })
 end
 
+# Sun.all.map { |sun|
+#   sun.compatibilities.push(sun)
+# }
+# ^^ figure out how to implement adding a users sun_sign to their compatibilities
+# array without association type mismatch (currently compatibility requires that
+# the ids be unique --> will have to update match method to look out that the matches
+# it is creating include all users with sun_sign same as theirs but dont include the
+# instance of themselves)
+
 # Sun.all.map { |sun| sun.compat_signs }
 # Sun.all.map do |sun|
 #   sun.compat_signs.split(',').map{|item| item.strip}.join(', ').split(',')
@@ -26,6 +35,8 @@ User.create!(first_name: "Hamilton", last_name: "Hudson", birth_year: 1989, birt
 User.create!(first_name: "Eva", last_name: "Hudson", birth_year: 1992, birth_month: 5, birth_day: 1)
 User.create!(first_name: "Downing", last_name: "Hudson", birth_year: 1957, birth_month: 8, birth_day: 31)
 User.create!(first_name: "Biff", last_name: "Hudson", birth_year: 1953, birth_month: 6, birth_day: 2)
+User.create!(first_name: "Athena", last_name: "Hudson", birth_year: 2012, birth_month: 6, birth_day: 13)
+User.create!(first_name: "Jon", last_name: "Van Gelder", birth_year: 1991, birth_month: 11, birth_day: 7)
 
 def create_compatibilities(sun_sign)
   Sun.all.map do |sun|

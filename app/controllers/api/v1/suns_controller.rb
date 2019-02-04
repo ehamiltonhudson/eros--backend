@@ -20,7 +20,7 @@ class Api::V1::SunsController < ApplicationController
   # private
   #
   #  def sun_params
-  #    params.require(:id).permit(:sign, :start_date, :end_date, :compat_signs)
+  #    params.require(:sun).permit(:sign, :start_date, :end_date, :compat_signs)
   #  end
 
 end
