@@ -4,7 +4,7 @@ class Match < ApplicationRecord
   # validates :user_id, presence: true
   # validates :matched_user_id, presence: true
   validates_uniqueness_of :matched_user, scope: :user
-  validate :no_duplicate_compatibility
+  # validate :no_duplicate_compatibility
   # after_create :create_inverse_match, unless: :has_inverse_match?
 
   # def create_inverse
@@ -19,12 +19,12 @@ class Match < ApplicationRecord
   #   self.class.where(inverse_match_options)
   # end
 
-  def no_duplicate_compatibility
-    combinations = ["user_id = #{user_id} AND matched_user_id = #{matched_user_id}", "user_id = #{matched_user_id} AND matched_user_id = #{user_id}"]
-    if User.where(combinations.join(' OR ')).exists?
-      self.errors.add(:user_id, 'Compatibility already exists')
-    end
-  end
+  # def no_duplicate_compatibility
+  #   combinations = ["user_id = #{user_id} AND matched_user_id = #{matched_user_id}", "user_id = #{matched_user_id} AND matched_user_id = #{user_id}"]
+  #   if Match.where(combinations.join(' OR ')).exists?
+  #     self.errors.add(:user_id, 'Compatibility already exists')
+  #   end
+  # end
 
   # private
   #

@@ -21,33 +21,34 @@ class User < ApplicationRecord
     # return bday = Date.new(("#{self.birth_year}").to_i, ("#{self.birth_month}").to_i, ("#{self.birth_day}").to_i)
   end
 
-# h = User.first
-# e = User.second
-# d = User.third
-# b = User.fourth
-# a = User.fifth
-# j = User.find(6)
+h = User.first
+e = User.second
+d = User.third
+b = User.fourth
+a = User.fifth
+j = User.find(6)
+h.my_sun_compats
 
-def my_sun_compats
-  compat_sun_ids = self.sun.compatible_suns.map { |compat_sun| compat_sun.id }
-  compat_sun_ids.push(self.sun_id)
-  User.all.find_all do |user|
-    if compat_sun_ids.include?(user.sun_id) && (user.id != self.id)
-      Match.find_or_create_by!(user_id: self.id, matched_user_id: user.id)
+  def my_sun_compats
+    compat_sun_ids = self.sun.compatible_suns.map { |compat_sun| compat_sun.id }
+    compat_sun_ids.push(self.sun_id)
+    User.all.find_all do |user|
+      if compat_sun_ids.include?(user.sun_id) && (user.id != self.id)
+        Match.find_or_create_by(user_id: self.id, matched_user_id: user.id)
+      end
     end
   end
-end
 
 
   private
 
-    def find_sun_sign
-      Sun.all.find do |sun|
-        if self.dob.zodiac_sign == sun.sign
-          self.sun = sun
-        end
+  def find_sun_sign
+    Sun.all.find do |sun|
+      if self.dob.zodiac_sign == sun.sign
+        self.sun = sun
       end
     end
+  end
 
     # def BEFORE_SAVE
     #   We use before_save for actions that need to occur that  aren't modifying the model itself. For  example, whenever you save to the database,   let's send an email to the Author alerting  them that the post was just saved!
