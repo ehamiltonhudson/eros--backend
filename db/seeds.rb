@@ -38,6 +38,19 @@ User.create!(first_name: "Biff", last_name: "Hudson", birth_year: 1953, birth_mo
 User.create!(first_name: "Athena", last_name: "Hudson", birth_year: 2012, birth_month: 6, birth_day: 13)
 User.create!(first_name: "Jon", last_name: "Van Gelder", birth_year: 1991, birth_month: 11, birth_day: 7)
 
+# 10.times {
+#   User.create!(first_name: FFaker::Name.first_name, last_name: FFaker::Name.last_name, birth_year: FFaker::Random.rand(1977..1997), birth_month: FFaker::Random.rand(0..12), birth_day: FFaker::Random.rand(1..28))
+# }
+
+5.times {
+  User.create!(first_name: Faker::Name.female_first_name, last_name: Faker::Name.last_name, birth_year: Faker::Number.between(1977, 1997), birth_month: Faker::Number.between(1, 12), birth_day: Faker::Number.between(1, 28))
+}
+
+5.times {
+  User.create!(first_name: Faker::Name.male_first_name , last_name: Faker::Name.last_name, birth_year: Faker::Number.between(1977, 1997), birth_month: Faker::Number.between(1, 12), birth_day: Faker::Number.between(1, 28))
+}
+
+
 def create_compatibilities(sun_sign)
   Sun.all.map do |sun|
     if sun.compat_signs.include?(sun_sign.sign)

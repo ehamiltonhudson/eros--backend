@@ -1,15 +1,17 @@
 class User < ApplicationRecord
   belongs_to :sun
-  before_validation :find_sun_sign
+  has_many :matches, dependent: :destroy
+  has_many :matched_users, through: :matches
+  has_many :user_matches, class_name: "Match", foreign_key: "matched_user_id"
+  has_many :users_matched, through: :user_matches, source: :user
+  before_validation :get_sun_sign
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :birth_year, presence: true
   validates :birth_month, presence: true
   validates :birth_day, presence: true
-  has_many :matches, dependent: :destroy
-  has_many :matched_users, through: :matches
-  has_many :user_matches, class_name: "Match", foreign_key: "matched_user_id"
-  has_many :users_matched, through: :user_matches, source: :user
+  # before_save :find_matches, on: :create
+  # after_validation :find_matches, on: :create
 
 
   def full_name
@@ -21,15 +23,7 @@ class User < ApplicationRecord
     # return bday = Date.new(("#{self.birth_year}").to_i, ("#{self.birth_month}").to_i, ("#{self.birth_day}").to_i)
   end
 
-h = User.first
-e = User.second
-d = User.third
-b = User.fourth
-a = User.fifth
-j = User.find(6)
-h.my_sun_compats
-
-  def my_sun_compats
+  def find_matches
     compat_sun_ids = self.sun.compatible_suns.map { |compat_sun| compat_sun.id }
     compat_sun_ids.push(self.sun_id)
     User.all.find_all do |user|
@@ -42,7 +36,7 @@ h.my_sun_compats
 
   private
 
-  def find_sun_sign
+  def get_sun_sign
     Sun.all.find do |sun|
       if self.dob.zodiac_sign == sun.sign
         self.sun = sun
