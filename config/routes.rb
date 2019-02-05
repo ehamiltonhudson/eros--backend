@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :compatibilities
       resources :users
       get 'users/:id/sun_compats', to: 'users#sun_compats'
+      get 'users/:id/user_matches', to: 'users#user_matches'
       resources :matches
     end
   end

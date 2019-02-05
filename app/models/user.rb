@@ -20,19 +20,27 @@ class User < ApplicationRecord
 
   def dob
     bday = Date.new(("#{self.birth_year}").to_i, ("#{self.birth_month}").to_i, ("#{self.birth_day}").to_i)
-    # return bday = Date.new(("#{self.birth_year}").to_i, ("#{self.birth_month}").to_i, ("#{self.birth_day}").to_i)
   end
 
   def find_matches
     compat_sun_ids = self.sun.compatible_suns.map { |compat_sun| compat_sun.id }
+    self.sun.inverse_compatible_suns.map { |ics| compat_sun_ids << ics.id }
     compat_sun_ids.push(self.sun_id)
     User.all.find_all do |user|
-      if compat_sun_ids.include?(user.sun_id) && (user.id != self.id)
-        Match.find_or_create_by(user_id: self.id, matched_user_id: user.id)
+      if (compat_sun_ids.include?(user.sun_id)) && (user.id != self.id)
+        unless Match.where(matched_user_id: self.id, user_id: user.id).exists?
+          Match.find_or_create_by(user_id: self.id, matched_user_id: user.id)
+        end
       end
     end
   end
 
+  def finds(user)
+    Match.find_by_user_id(params[:user_id] != user.id)
+    Match.find_by_user_id_and_matched_user_id(params[:matched_user_id])
+    if user_id == self.id || matched_user_id == self.id
+    end
+  end
 
   private
 
@@ -43,28 +51,5 @@ class User < ApplicationRecord
       end
     end
   end
-
-    # def BEFORE_SAVE
-    #   We use before_save for actions that need to occur that  aren't modifying the model itself. For  example, whenever you save to the database,   let's send an email to the Author alerting  them that the post was just saved!
-    #   i.e. ALERTING A USER ABOUT A SUCCESSFUL MATCH
-    # end
-
-    # def sun(dob)
-    #   zodiac = dob.zodiac_sign
-    # end
-    # def sun(@user.dob)
-    #   zodiac = dob.zodiac_sign
-    # end
-
-  # def find_sun_sign
-  #   user_bday = Chronic.parse(combine_bday)
-  #   Sun.all.each do |sun|
-  #     start_date = Chronic.parse(sun.start_date)
-  #     end_date = Chronic.parse(sun.end_date)
-  #     if user_bday.between?(start_date, end_date)
-  #       self.sun = sun
-  #     end
-  #   end
-  # end
 
 end

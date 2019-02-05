@@ -23,8 +23,8 @@ class MatchesController < ApplicationController
 
   private
 
-  def match_params
-    params.require(:match).permit(:sun_id, :compatible_sun_id)
-  end
+  # def match_params
+  #   params.require(:match).permit(:user_id, :matched_user_id)
+  # end
 
 end

@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:show, :sun_compats]
+  before_action :find_user, only: [:show, :sun_compats, :user_matches]
 
   def index
     @users = User.all
@@ -10,13 +10,6 @@ class Api::V1::UsersController < ApplicationController
     render json: @user, status: 200
   end
 
-  def sun_compats
-    @name = @user.full_name
-    @sun_compats = @user.sun.compatibilities
-    render json: [@name, @sun_compats], status: 200
-  end
-
-
   def new
     @user = User.new
   end
@@ -24,6 +17,7 @@ class Api::V1::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.valid?
+      @user.find_matches
       render json: @user, status: 200
     # if @user.id
     #   redirect_to user_path(@user)
@@ -33,19 +27,18 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-#   def create
-#   @user = User.create(user_params)
-#   if @user.valid?
-#     render json: @user, status: :ok
-#   else
-#     render json: @user.errors.full_messages, status: :unprocessable_entity
-# end
-# end
+  def sun_compats
+    @name = @user.full_name
+    @sun_compats = @user.sun.compatibilities
+    render json: [@name, @sun_compats], status: 200
+  end
 
-  # def edit
-  #   @user = User.find(params[:id])
-  # end
-  #
+  def user_matches
+    @name = @user.full_name
+    @user_matches = @user.find_matches
+    render json: [@name, @user_matches]
+  end
+
   # def update
   #   @user = User.find(params[:id])
   #   if @user.update(user_params)
