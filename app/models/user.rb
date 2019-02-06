@@ -12,6 +12,7 @@ class User < ApplicationRecord
   validates :birth_day, presence: true
   # before_save :find_matches, on: :create
   # after_validation :find_matches, on: :create
+  # after_save: :find_matches
 
 
   def full_name

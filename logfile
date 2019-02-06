@@ -1,0 +1,17 @@
+2019-02-05 16:06:14.406 EST [3196] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-02-05 16:06:14.406 EST [3196] LOG:  listening on IPv6 address "::1", port 5432
+2019-02-05 16:06:14.407 EST [3196] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-02-05 16:06:14.422 EST [3197] LOG:  database system was shut down at 2019-02-05 16:06:06 EST
+2019-02-05 16:06:14.429 EST [3196] LOG:  database system is ready to accept connections
+2019-02-05 16:06:21.163 EST [3208] FATAL:  database "hamiltonhudson" does not exist
+2019-02-05 16:06:22.874 EST [3209] FATAL:  database "hamiltonhudson" does not exist
+2019-02-05 16:07:11.021 EST [3216] FATAL:  database "hamiltonhudson" does not exist
+2019-02-05 16:23:12.333 EST [4025] FATAL:  database "eros--backend_development" does not exist
+2019-02-05 16:23:13.537 EST [4026] FATAL:  database "eros--backend_development" does not exist
+2019-02-05 16:43:53.903 EST [5021] FATAL:  database "hamiltonhudson" does not exist
+2019-02-05 16:48:00.102 EST [5765] FATAL:  database "hamiltonhudson" does not exist
+2019-02-05 16:48:13.685 EST [5778] FATAL:  database "hamiltonhudson" does not exist
+2019-02-05 16:48:28.752 EST [5785] FATAL:  database "eros--backend" does not exist
+2019-02-05 16:49:21.999 EST [6054] FATAL:  database "hamiltonhudson/Flatiron/eros--backend/FinalProject\|Mod5/eros--" does not exist
+2019-02-05 16:49:30.766 EST [6057] FATAL:  database "hamiltonhudson/Flatiron/eros--backend/FinalProject|Mod5/eros--b" does not exist
+2019-02-05 16:49:49.608 EST [6060] FATAL:  database "hamiltonhudson/Flatiron/eros--backend/FinalProject|Mod5/eros--b" does not exist
