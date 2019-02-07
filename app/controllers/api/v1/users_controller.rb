@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:show, :sun_compats, :user_matches]
+  before_action :find_user, only: [:show, :sun_compats, :user_matches, :update]
+  # after_action :user_matches, only: [:create]
 
   def index
     @users = User.all
@@ -16,15 +17,20 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    # byebug
     if @user.valid?
-      @user.find_matches
-      render json: @user, status: 200
+    #   byebug
     # if @user.id
-    #   redirect_to user_path(@user)
+      @user.save
+      render json: @user, status: 200
     else
-      flash[:errors] = @user.errors.full_messages
-      redirect_to new_user_path
+      render json: @user.errors.full_messages
     end
+  end
+
+  def user_matches
+    @user.find_matches
+    render json: @user, status: 200
   end
 
   def sun_compats
@@ -33,32 +39,41 @@ class Api::V1::UsersController < ApplicationController
     render json: [@name, @sun_compats], status: 200
   end
 
-  def user_matches
-    @name = @user.full_name
-    @user_matches = @user.find_matches
-    render json: [@name, @user_matches]
+  # def user_matches
+  #   @name = @user.full_name
+  #   @user_matches = @user.find_matches
+  #   render json: [@name, @user_matches]
+  # render json: @user.errors, status: :unprocessable_entity
+  # end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
 
-  # def update
+  # def remove_match(declined_match)
   #   @user = User.find(params[:id])
-  #   if @user.update(user_params)
-  #     redirect_to users_path
-  #   else
-  #     flash[:errors] = @user.errors.full_messages
-  #     redirect_to edit_user_path
-  #   end
+  #   match = @user.matches.find(match.id == declined_match.id)
+  #   @user.declined_matches.push(match)
+  #   @user.matches.delete(match)
+  #   @user.save
+  #   render json: {user: user, matches: user.matches, status: "decline successful, matches updated"}
   # end
-  #
-  # def destroy
-  #   @user = User.find(params[:id])
-  #   @user.destroy
-  #   redirect_to users_path
-  # end
+
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    render json: @users, status: 200
+  end
 
   private
 
   def user_params
-     params.require(:user).permit(:name, :birth_month, :birth_day, :birth_year, :zodiac_id)
+     params.require(:user).permit(:first_name, :last_name, :birth_year, :birth_month, :birth_day, :zodiac_id)
    end
 
    def find_user

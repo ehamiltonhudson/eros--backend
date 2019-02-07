@@ -21,6 +21,20 @@ class MatchesController < ApplicationController
     end
   end
 
+  # def remove(declined_by)
+  #   @match = Match.find(params[:id])
+  #   # user = @match.user_id == declined_by.id || @match.matched_user_id == declined_by.id
+  #   user.declined_matches.push(@match)
+  #   @match.delete
+  #   @user.save
+  # end
+
+  # def destroy
+  #   @match = Match.find(params[:id])
+  #   @match.destroy
+  #   render @matches, status: 200
+  # end
+
   private
 
   # def match_params

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :suns, only: [:index, :show]
       resources :compatibilities
-      resources :users
+      resources :users, only: [:index, :show, :create, :update, :destroy]
       get 'users/:id/sun_compats', to: 'users#sun_compats'
       get 'users/:id/user_matches', to: 'users#user_matches'
       resources :matches
