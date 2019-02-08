@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :find_user, only: [:show, :sun_compats, :user_matches, :update]
-  # after_action :user_matches, only: [:create]
+  # after_action :user_matches, only: [:create, :update]
 
   def index
     @users = User.all
@@ -17,11 +17,9 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    # byebug
     if @user.valid?
-    #   byebug
-    # if @user.id
       @user.save
+      @user.find_matches
       render json: @user, status: 200
     else
       render json: @user.errors.full_messages
@@ -49,6 +47,7 @@ class Api::V1::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
+      @user.save
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity

@@ -14,7 +14,7 @@ class User < ApplicationRecord
   after_create :find_matches
   # before_save :find_matches, on: :create
   # after_validation :find_matches, on: :create
-  # after_save: :find_matches
+  after_create :find_matches, before: :save
 
 
   def full_name
